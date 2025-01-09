@@ -1,0 +1,215 @@
+{% extends "base_dashboard.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div id="wrapper">
+    <div id="content" class="d-flex flex-grow-1">
+        <div class="container-fluid">
+            <h1 class="h3 mb-4 text-white-800">Dashboard</h1>
+
+            <!-- Cards -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Entradas</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ entradas }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-arrow-up fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Saídas</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ saidas }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-arrow-down fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <form method="GET" action="{{ url_for('dashboard') }}" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="setor" class="form-label">Setor</label>
+                        <select class="form-select" id="setor" name="setor">
+                            <option value="">Todos</option>
+                            {% for setor in setores %}
+                                <option value="{{ setor.nome }}" {% if setor.nome == filtro_setor %}selected{% endif %}>
+                                    {{ setor.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="movimento" class="form-label">Tipo de Movimentação</label>
+                        <select class="form-select" id="movimento" name="movimento">
+                            <option value="">Todos</option>
+                            <option value="Entrada" {% if filtro_movimento == 'Entrada' %}selected{% endif %}>Entrada</option>
+                            <option value="Saída" {% if filtro_movimento == 'Saída' %}selected{% endif %}>Saída</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="data_inicio" class="form-label">Data Início</label>
+                        <input type="date" class="form-control" id="data_inicio" name="data_inicio" value="{{ filtro_data_inicio }}">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="data_fim" class="form-label">Data Fim</label>
+                        <input type="date" class="form-control" id="data_fim" name="data_fim" value="{{ filtro_data_fim }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </div>
+            </form>
+
+            <div class="list-group mt-4">
+                {% if movimentacoes %}
+                    {% for movimentacao in movimentacoes %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>{{ movimentacao.movimento }}</strong><br>
+                                Remetente: {{ movimentacao.setor_remetente or 'N/A' }}<br>
+                                Destinatário: {{ movimentacao.setor_destinatario or 'N/A' }}<br>
+                                Nome do Equipamento: {{ movimentacao.tipo_objeto or 'N/A' }}<br>
+                                Quantidade: {{ movimentacao.quantidade }}<br>
+                                Data: {{ movimentacao.data_movimento.strftime('%d/%m/%Y %H:%M') }}
+                            </span>
+                            <span class="badge bg-primary rounded-pill">{{ movimentacao.id }}</span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Nenhuma movimentação encontrada.</p>
+                {% endif %}
+            </div>
+            <!-- Gráficos -->
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Movimentações</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="meuCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Distribuições por Tipo de Material</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reposição -->
+            {% if materiais_necessarios_reposicao %}
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Atenção: Reposição Necessária!</h4>
+                    <ul>
+                        {% for material in materiais_necessarios_reposicao %}
+                            <li>{{ material.tipo_material }} no setor {{ material.setor }} está abaixo do mínimo ({{ material.quantidade }} disponíveis).</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!-- Botões para exportar -->
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gráfico de barras (Movimentações)
+        var movimentacoesLabels = {{ movimentacoes_labels|tojson }};
+        var movimentacoesValues = {{ movimentacoes_values|tojson }};
+
+        if (movimentacoesLabels.length > 0 && movimentacoesValues.length > 0) {
+            var ctx = document.getElementById('meuCanvas').getContext('2d');
+            var movimentacoesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: movimentacoesLabels,
+                    datasets: [{
+                        label: 'Movimentações',
+                        data: movimentacoesValues,
+                        backgroundColor: ['#11af7b', '#f44336'],
+                        borderColor: ['#4caf50', '#f44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Gráfico de pizza (Distribuições por Tipo de Material)
+        var distribuicoesLabels = {{ distribuicoes_labels|tojson }};
+        var distribuicoesValues = {{ distribuicoes_values|tojson }};
+
+        if (distribuicoesLabels.length > 0 && distribuicoesValues.length > 0) {
+            var pieCtx = document.getElementById('pieChart').getContext('2d');
+            var distribuicoesChart = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: distribuicoesLabels,
+                    datasets: [{
+                        label: 'Distribuições por Tipo de Material',
+                        data: distribuicoesValues,
+                        backgroundColor: ['#36a2eb', '#ffcd56', '#11af7b'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

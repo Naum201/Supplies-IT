@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Cadastro de Equipamentos</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label for="tipo_material" class="form-label">Tipo de Material</label>
+        <select class="form-select" id="tipo_material" name="tipo_material" required>
+            {% for material in materiais %}
+                <option value="{{ material.id }}">{{ material.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="icone" class="form-label">Ícone</label>
+        <select class="form-select" id="icone" name="icone" required>
+            <option value="bi bi-droplet-half">Tonner / Etiqueta / Ribon</option>
+            <option value="bi bi-display">Monitor</option>
+            <option value="bi bi-mouse3-fill">Mouse</option>
+            <option value="bi bi-keyboard-fill">Teclado</option>
+            <option value="bi bi-telephone">Telefone</option>
+            <option value="bi bi-hdd">HD</option>
+            <option value="bi bi-laptop">Computador</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+{% endblock %}

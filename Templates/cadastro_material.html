@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Cadastro de Tipo de Material</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome do Tipo de Material</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label for="icone" class="form-label">Ícone</label>
+        <select class="form-select" id="icone" name="icone" required>
+            <option value="bi bi-display">Monitor</option>
+            <option value="bi bi-laptop">Computador</option>
+            <option value="bi bi-box-seam-fill">Suprimentos - Impressora</option>
+            <option value="bi bi-telephone">Telefonia</option>
+            <option value="bi bi-keyboard-fill">Perifericos</option>
+            <option value="bi bi-printer-fill">Impressora</option>
+            <option value="bi bi-hdd-stack">Hardware</option>
+            <option value="bi bi-router">Infraestrutura</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+{% endblock %}

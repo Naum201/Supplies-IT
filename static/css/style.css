@@ -1,0 +1,274 @@
+/* Reset de estilo para garantir que todos os navegadores exibam as páginas de forma consistente */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fc;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar {
+    background-color: #343a40;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #fff !important;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #fff;
+    padding: 1rem;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #007bff;
+}
+
+.navbar-toggler {
+    border-color: #fff;
+}
+
+.navbar-toggler-icon {
+    background-color: #fff;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.card {
+    border-radius: 0.375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-header {
+    background-color: #f8f9fc;
+    font-weight: bold;
+}
+
+.card-footer {
+    background-color: #f8f9fc;
+}
+
+.alert {
+    margin-top: 1rem;
+}
+
+.alert-dismissible .btn-close {
+    background-color: transparent;
+}
+
+.list-group-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.list-group-item .badge {
+    font-size: 1.2rem;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding-top: 1rem;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar .sidebar-brand {
+    color: #fff;
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+}
+
+.sidebar .nav-item .nav-link {
+    color: #fff;
+    padding: 1rem;
+    border-bottom: 1px solid #444;
+}
+
+.sidebar .nav-item .nav-link:hover {
+    background-color: #0056b3;
+}
+
+.sidebar .collapse-item {
+    padding: 0.75rem 1.5rem;
+}
+
+.sidebar-divider {
+    margin: 1rem 0;
+    border-top: 1px solid #444;
+}
+
+/* Responsividade para o Sidebar */
+@media (max-width: 768px) {
+    /* Quando a tela for menor que 768px, a sidebar será oculta inicialmente */
+    .sidebar {
+        width: 0;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        height: 100%;
+        padding: 0;
+        box-shadow: none;
+        overflow: hidden;
+    }
+
+    .sidebar.open {
+        width: 250px;
+        padding-top: 1rem;
+        box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Adiciona um botão para abrir/fechar o sidebar */
+    .sidebar-toggle {
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        padding: 0.5rem;
+    }
+
+    .list-group-item {
+        padding: 0.75rem;
+    }
+}
+
+/* Card Styles */
+.card.border-left-success {
+    border-left: 5px solid #28a745;
+}
+
+.card.border-left-danger {
+    border-left: 5px solid #dc3545;
+}
+
+.card.border-left-primary {
+    border-left: 5px solid #007bff;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.text-gray-800 {
+    color: #343a40;
+}
+
+.font-weight-bold {
+    font-weight: 700;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+/* Additional Styling for the Page */
+.bg-gradient-primary {
+    background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    color: #fff;
+}
+
+.sidebar .sidebar-divider {
+    border-top: 1px solid #6c757d;
+}
+
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.collapse-inner {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* Custom media queries for responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        box-shadow: none;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        padding: 0.5rem;
+    }
+
+    .list-group-item {
+        padding: 0.75rem;
+    }
+}

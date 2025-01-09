@@ -1,0 +1,174 @@
+{% extends "base_dashboard.html" %}
+
+{% block title %}Equipamentos por Setor{% endblock %}
+
+{% block content %}
+<h1>Equipamentos por Setor</h1>
+<div class="row">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content" class="d-flex flex-grow-1">
+            <div class="container-fluid">
+                
+                <!-- Setores Movimentados -->
+                <h2>Setores Movimentados</h2>
+                {% if materiais_por_setor_dict %}
+                    <div class="row">
+                        {% for setor_nome, materiais in materiais_por_setor_dict.items() %}
+                            <div class="col-md-4 col-sm-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">{{ setor_nome }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        {% for material in materiais %}
+                                            <p><strong>Material:</strong> {{ material.tipo_material }}</p>
+                                            <p><strong>Objeto:</strong> {{ material.tipo_objeto }}</p>
+                                            <p><strong>Entrada:</strong> {{ material.entrada }}</p>
+                                            <p><strong>Saída:</strong> {{ material.saida }}</p>
+                                            <p><strong>Total Atual:</strong> {{ material.quantidade_atual }}</p>
+                                            <p><strong>Data do Movimento:</strong> {{ material.data_movimento }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Nenhum material ou objeto encontrado para os setores movimentados.</p>
+                {% endif %}
+                
+                <!-- Gráfico de Quantidade por Setor -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Gráfico de Quantidade por Setor</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Análise de Solicitações -->
+                <div class="col-lg-12 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Análise de Solicitações</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Gráfico de Pizza - Quantidade Atual por Setor
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var data = {
+        labels: [],
+        datasets: [{
+            label: 'Quantidade Atual por Setor',
+            data: [],
+            backgroundColor: ['#FFB6C1', '#0e95b0', '#11af7b', '#cfcf09', '#FFEC8B'],
+            borderColor: ['#FFB6C1', '#98FB98', '#ADD8E6', '#FFD700', '#FFEC8B'],
+            borderWidth: 1
+        }]
+    };
+
+    // Preenchendo as labels e dados com os valores de setores e totais
+    {% for setor_nome, materiais in materiais_por_setor_dict.items() %}
+        var totalAtualSetor = 0;
+        {% for material in materiais %}
+            totalAtualSetor += {{ material.quantidade_atual }};
+        {% endfor %}
+        data.labels.push('{{ setor_nome }}');
+        data.datasets[0].data.push(totalAtualSetor);
+    {% endfor %}
+
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data
+    });
+
+    // Gráfico de Linha - Análise de Solicitações
+    var ctxLine = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for dia in analise_por_dia %}
+                    '{{ dia.data }}',
+                {% endfor %}
+            ],
+            datasets: [
+                {
+                    label: 'Solicitações por Dia',
+                    data: [
+                        {% for dia in analise_por_dia %}
+                            {{ dia.total }},
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Solicitações por Semana',
+                    data: [
+                        {% for semana in analise_por_semana %}
+                            {{ semana.total }},
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Solicitações por Mês',
+                    data: [
+                        {% for mes in analise_por_mes %}
+                            {{ mes.total }},
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    text: 'Análise de Solicitações'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Período'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Total de Solicitações'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

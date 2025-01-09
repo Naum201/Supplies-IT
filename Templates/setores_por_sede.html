@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block title %}Setores por Sede{% endblock %}
+{% block content %}
+<!-- Page Wrapper -->
+<div id="wrapper">
+    
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content" class="d-flex flex-grow-1">
+            <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800">Setores por Sede</h1>
+                
+                <!-- Cards displaying sectors by headquarters -->
+                <div class="row">
+                    {% for sede, setores in setores_por_sede_dict.items() %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">{{ sede }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for setor in setores %}
+                                    <li>{{ setor }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

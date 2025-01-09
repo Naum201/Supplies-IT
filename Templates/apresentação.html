@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVI - Gestão de Estoque</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Container da apresentação */
+        .presentation-container {
+            max-width: 900px;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        /* Estilo dos slides */
+        .slide {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide h1, .slide h2 {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .slide ul {
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        /* Estilo para os botões */
+        .button-next, .button-prev {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .button-next:hover, .button-prev:hover {
+            background-color: #0056b3;
+        }
+
+        /* Navegação entre slides */
+        .button-prev {
+            margin-right: 20px;
+        }
+
+        .slide-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container presentation-container">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <h1 class="slide-title">SVI - Gestão de Estoque</h1>
+            <p>Apresentação do Sistema de Gestão de Estoque</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <h2>Objetivos</h2>
+            <ul>
+                <li>Automatizar a gestão de entradas e saídas de materiais.</li>
+                <li>Facilitar o cadastro de materiais, objetos, setores e sedes.</li>
+                <li>Fornecer uma interface clara e fácil de usar para os usuários.</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <h2>Funcionalidades Principais</h2>
+            <ul>
+                <li>Cadastro de Setores e Sedes</li>
+                <li>Cadastro de Materiais e Objetos</li>
+                <li>Entrada e Saída de Materiais</li>
+                <li>Dashboard Interativo</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <h2>Cadastro de Sede</h2>
+            <p>Permite cadastrar novas sedes, definindo o nome e tipo (Matriz ou Filial).</p>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <h2>Cadastro de Setor</h2>
+            <p>Possibilita o cadastro de setores, atribuindo-os a uma sede específica.</p>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+            <h2>Entrada e Saída de Materiais</h2>
+            <p>Registra movimentações de materiais entre setores e sedes, controlando entradas e saídas.</p>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide">
+            <h2>Conclusão</h2>
+            <p>O SVI oferece uma gestão eficiente de estoques, facilitando a organização e controle de materiais.</p>
+        </div>
+
+        <!-- Botões de navegação -->
+        <div class="d-flex justify-content-between">
+            <button class="button-prev" onclick="prevSlide()">Anterior</button>
+            <button class="button-next" onclick="nextSlide()">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide++;
+                slides[currentSlide].classList.add('active');
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide--;
+                slides[currentSlide].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

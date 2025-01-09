@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Registrar Entrada/Saída</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="nota" class="form-label">Nota Fiscal</label>
+        <input type="text" class="form-control" id="nota" name="nota" placeholder="Digite a nota (opcional)">
+    </div>
+    
+    <div class="mb-3">
+        <label for="sede" class="form-label">Sede</label>
+        <select class="form-select" id="sede" name="sede" required>
+            {% for sede in sedes %}
+                <option value="{{ sede.id }}">{{ sede.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Setor Remetente -->
+    <div class="mb-3">
+        <label for="setor_remetente" class="form-label">Setor Remetente</label>
+        <select class="form-select" id="setor_remetente" name="setor_remetente" required>
+            {% for setor in setores %}
+                <option value="{{ setor.id }}">{{ setor.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Setor Destinatário -->
+    <div class="mb-3">
+        <label for="setor_destinatario" class="form-label">Setor Destinatário</label>
+        <select class="form-select" id="setor_destinatario" name="setor_destinatario" required>
+            {% for setor in setores %}
+                <option value="{{ setor.id }}">{{ setor.nome }}</option>
+            {% endfor %}
+            <option value="Nulo">Nulo</option> <!-- Valor Nulo corretamente atribuído -->
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="tipo_material" class="form-label">Tipo de Material</label>
+        <select class="form-select" id="tipo_material" name="tipo_material" required>
+            {% for material in materiais %}
+                <option value="{{ material.id }}">{{ material.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="tipo_objeto" class="form-label">Equipamento</label>
+        <select class="form-select" id="tipo_objeto" name="tipo_objeto" required>
+            {% for objeto in objetos %}
+                <option value="{{ objeto.id }}">{{ objeto.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="quantidade" class="form-label">Quantidade</label>
+        <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="movimento" class="form-label">Movimento</label>
+        <select class="form-select" id="movimento" name="movimento" required>
+            <option value="Entrada">Entrada</option>
+            <option value="Saída">Saída</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registrar</button>
+</form>
+{% endblock %}

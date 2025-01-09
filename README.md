@@ -26,6 +26,6 @@ Administração de Usuários
 
 Cadastro de usuários com controle de perfis e permissões de acesso.
 Tecnologias Utilizadas
-Linguagem de Programação: (Insira aqui, ex.: Python, JavaScript, etc.)
-Frameworks: (Insira aqui, ex.: Django, React, etc.)
-Banco de Dados: (Insira aqui, ex.: MySQL, PostgreSQL, etc.)
+Linguagem de Programação: (Python, JavaScript, HTML, CSS BOOTSTRAP . )
+Frameworks: (Flask.)
+Banco de Dados: ( MySQL.)
